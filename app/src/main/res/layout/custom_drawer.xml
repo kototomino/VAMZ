@@ -285,7 +285,6 @@
 
 
     <LinearLayout
-        android:id="@+id/addImage"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_30sdp"
         android:gravity="center_vertical"
@@ -299,9 +298,28 @@
 
             ></ImageView>
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/addImage"
+            android:layout_width="@dimen/_80sdp"
             android:layout_height="wrap_content"
             android:text="ADD IMAGE"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:fontFamily="@font/bangers"
+            ></TextView>
+
+        <ImageView
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:src="@drawable/ic_baseline_add_a_photo_24"
+            android:layout_marginStart="@dimen/_20sdp"
+            ></ImageView>
+        <TextView
+            android:id="@+id/captureImage"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="wrap_content"
+            android:text="CAPTURE IMAGE"
+            android:gravity="center"
             android:textColor="@color/white"
             android:layout_marginStart="@dimen/_12sdp"
             android:fontFamily="@font/bangers"

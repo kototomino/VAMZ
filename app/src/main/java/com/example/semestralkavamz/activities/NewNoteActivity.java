@@ -3,14 +3,18 @@ package com.example.semestralkavamz.activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.loader.content.CursorLoader;
 
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -19,7 +23,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -34,6 +40,8 @@ import com.example.semestralkavamz.data.Note;
 import com.example.semestralkavamz.database.NotesDatabase;
 
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 
@@ -50,11 +58,15 @@ public class NewNoteActivity extends AppCompatActivity {
     private String color;
     private String selectedImagePath;
     private ImageView imageNote;
+    private File photoFile;
     private final static int REQUEST_CODE_STORAGE_PERMISSION = 1;
     private final static int REQUEST_CODE_SELECT_IMAGE = 2;
+    private final static int REQUEST_CODE_CAPTURE_IMAGE = 3;
+    private final static int REQUEST_CODE_WRITE_STORAGE = 4;
 
     private Note availableNote;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,6 +158,7 @@ public class NewNoteActivity extends AppCompatActivity {
         }
         new SaveNote().execute();
     }
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void initializeCustomDrawer() {
 
         LinearLayout drawerLayout = findViewById(R.id.linearLayoutOfCustom);
@@ -308,9 +321,13 @@ public class NewNoteActivity extends AppCompatActivity {
                     PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(NewNoteActivity.this,
                         new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},REQUEST_CODE_STORAGE_PERMISSION);
-            }else {
+            }
+            else {
                 selectImage();
             }
+        });
+        drawerLayout.findViewById(R.id.captureImage).setOnClickListener(view ->{
+            checkStoragePermission();
         });
     }
     private void selectImage() {
@@ -321,25 +338,162 @@ public class NewNoteActivity extends AppCompatActivity {
 
 
     }
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        selectedImagePath = image.getAbsolutePath();
+        return image;
+    }
+
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode==1){
+
+        if(requestCode == REQUEST_CODE_STORAGE_PERMISSION){
             if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
                 selectImage();
+
             }
             else{
                 Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_LONG).show();
             }
         }
+        if(requestCode == REQUEST_CODE_WRITE_STORAGE) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //Permission is granted
+                openCameraTocaptureImage();
+            } else {
+                Toast.makeText(this, "permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
+    private void openCameraTocaptureImage() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.semestralkavamz",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_CODE_CAPTURE_IMAGE);
+            }
+        }
+    }
 
-    
+    private void checkStoragePermission() {
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(NewNoteActivity.this,
+                //change permission to WRITE_STORAGE
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(NewNoteActivity.this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                new AlertDialog.Builder(NewNoteActivity.this)
+                        .setTitle("Permission Required")
+                        .setMessage("Storage permission is required to save image")
+                        .setPositiveButton("ALLOW", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //on click Allow we need request again
+                                dialogInterface.cancel();
+                                ActivityCompat.requestPermissions(NewNoteActivity.this,
+                                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                        REQUEST_CODE_WRITE_STORAGE);
+                            }
+                        }).setNegativeButton("DENIED", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                        //cancel the dialog interface
+                    }
+                }).show();
+                //forget to call show()
+            } else {
+                ActivityCompat.requestPermissions(NewNoteActivity.this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        REQUEST_CODE_WRITE_STORAGE);
+
+            }
+        } else {
+
+            Toast.makeText(this, "Permission Alreday grated", Toast.LENGTH_SHORT).show();
+            //capture image when permission is granted
+            openCameraTocaptureImage();
+
+        }
+    }
+    private void galleryAddPic() {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(selectedImagePath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        this.sendBroadcast(mediaScanIntent);
+    }
+    private void setPic() {
+        // Get the dimensions of the View
+        int targetW = imageNote.getWidth();
+        int targetH = imageNote.getHeight();
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+
+        BitmapFactory.decodeFile(selectedImagePath, bmOptions);
+
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.max(1, Math.min(photoW/targetW, photoH/targetH));
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath, bmOptions);
+        imageNote.setImageBitmap(bitmap);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_CODE_SELECT_IMAGE && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CODE_CAPTURE_IMAGE && resultCode == RESULT_OK) {
+
+
+            File f = new File(selectedImagePath);
+            Uri contentUri = Uri.fromFile(f);
+
+            Toast.makeText(this, "uri " + contentUri, Toast.LENGTH_SHORT).show();
+            galleryAddPic();
+            imageNote.setImageURI(contentUri);
+            imageNote.setVisibility(View.VISIBLE);
+
+        }if(requestCode == REQUEST_CODE_SELECT_IMAGE&& resultCode == RESULT_OK) {
+
             if(data != null) {
                 Uri selectedImageUri = data.getData();
                 if(selectedImageUri != null) {
