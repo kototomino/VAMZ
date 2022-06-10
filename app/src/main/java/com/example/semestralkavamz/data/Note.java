@@ -1,14 +1,10 @@
 package com.example.semestralkavamz.data;
-
-import android.graphics.Typeface;
-
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
 import java.io.Serializable;
-import java.lang.reflect.Type;
+
 
 @Entity(tableName = "notes")
 public class Note implements Serializable {
@@ -31,9 +27,6 @@ public class Note implements Serializable {
 
     @ColumnInfo(name = "color")
     private String color;
-
-
-
 
     public int getId() {
         return id;
@@ -88,4 +81,6 @@ public class Note implements Serializable {
     public String toString() {
         return title + " : " + time;
     }
+
+
 }

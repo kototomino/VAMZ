@@ -1,8 +1,6 @@
 package com.example.semestralkavamz.adapter;
 
 import android.annotation.SuppressLint;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 
@@ -11,7 +9,6 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,7 +20,6 @@ import com.example.semestralkavamz.R;
 import com.example.semestralkavamz.data.Note;
 
 import com.example.semestralkavamz.interfaces.NotesListener;
-import com.makeramen.roundedimageview.RoundedImageView;
 
 
 import java.util.ArrayList;
@@ -32,7 +28,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
-    private List<com.example.semestralkavamz.data.Note> notes;
+    private List<Note> notes;
     private NotesListener notesListener;
     private Timer timer;
     private List<Note> sourceNotes;
@@ -52,12 +48,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.initializeNote(notes.get(position));
-        holder.layoutNoteItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                notesListener.onNoteClicked(notes.get(position),position);
-            }
-        });
+        holder.layoutNoteItem.setOnClickListener(view -> notesListener.onNoteClicked(notes.get(position),position));
     }
 
     @Override
@@ -72,15 +63,15 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
     public class NoteViewHolder extends RecyclerView.ViewHolder {
 
-        TextView titleText, timeText;
+        TextView titleText, timeText,imageNoteText;
         LinearLayout layoutNoteItem;
-        RoundedImageView imageNoteView;
+
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
             titleText = itemView.findViewById(R.id.titleText);
             timeText = itemView.findViewById(R.id.timeText);
             layoutNoteItem = itemView.findViewById(R.id.item_note_view_layout);
-            imageNoteView = itemView.findViewById(R.id.imageNoteView);
+            imageNoteText = itemView.findViewById(R.id.imageNoteText);
 
         }
 
@@ -97,14 +88,9 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             }
 
             if (note.getImagePath() != null &&  !note.getImagePath().trim().isEmpty()) {
-//                BitmapFactory.Options options = new BitmapFactory.Options();
-//                options.inSampleSize = 3;
-//                Bitmap bitmap = BitmapFactory.decodeFile(note.getImagePath());
-                //imageNoteView.setImageBitmap(bitmap);
-                imageNoteView.setImageBitmap(BitmapFactory.decodeFile(note.getImagePath()));
-                imageNoteView.setVisibility(View.VISIBLE);
+               imageNoteText.setVisibility(View.VISIBLE);
             } else {
-                imageNoteView.setVisibility(View.GONE);
+                imageNoteText.setVisibility(View.GONE);
             }
         }
     }

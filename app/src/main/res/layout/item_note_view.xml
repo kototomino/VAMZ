@@ -9,22 +9,26 @@
     android:background="@drawable/note_view"
     android:orientation="vertical">
 
-    <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/imageNoteView"
+    <TextView
+        android:id="@+id/imageNoteText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Photo included"
         android:adjustViewBounds="true"
         android:visibility="visible"
-        app:riv_corner_radius_top_left="30dp"
-        app:riv_corner_radius_top_right="30dp"
-        ></com.makeramen.roundedimageview.RoundedImageView>
+        android:gravity="right"
+        android:textSize="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_15ssp"
+        android:layout_marginTop="@dimen/_5ssp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/ubuntu_medium"
+        ></TextView>
 
     <TextView
         android:id="@+id/titleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_8sdp"
         android:layout_marginEnd="@dimen/_8sdp"
         android:fontFamily="@font/bangers"
         android:textColor="@color/white"

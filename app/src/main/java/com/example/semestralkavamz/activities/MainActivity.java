@@ -4,11 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
-
 import com.example.semestralkavamz.R;
-
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -29,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void initialize() {
-        ArrayList<Integer> images = new ArrayList<Integer>();
+        ArrayList<Integer> images = new ArrayList<>();
         ImageView image = findViewById(R.id.randomImage);
         Random rnd = new Random();
         images.add(R.drawable.image1);
@@ -53,12 +50,7 @@ public class MainActivity extends AppCompatActivity {
         images.add(R.drawable.image19);
         images.add(R.drawable.image20);
         image.setImageResource(images.get(rnd.nextInt(images.size())));
-        image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), IntroScreenActivity.class));
-            }
-        });
+        image.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), IntroScreenActivity.class)));
         }
 
     }

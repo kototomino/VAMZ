@@ -13,5 +13,6 @@
     <color name="red">#D50000</color>
     <color name="gray">#656262</color>
     <color name="orange">#FF6D00</color>
+    <color name= "light">#54D5C576</color>
 
 </resources>

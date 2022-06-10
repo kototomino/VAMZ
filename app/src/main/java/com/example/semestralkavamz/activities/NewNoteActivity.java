@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
-import androidx.loader.content.CursorLoader;
+
 
 
 import android.Manifest;
@@ -40,11 +40,13 @@ import com.example.semestralkavamz.data.Note;
 import com.example.semestralkavamz.database.NotesDatabase;
 
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -58,12 +60,10 @@ public class NewNoteActivity extends AppCompatActivity {
     private String color;
     private String selectedImagePath;
     private ImageView imageNote;
-    private File photoFile;
     private final static int REQUEST_CODE_STORAGE_PERMISSION = 1;
     private final static int REQUEST_CODE_SELECT_IMAGE = 2;
     private final static int REQUEST_CODE_CAPTURE_IMAGE = 3;
     private final static int REQUEST_CODE_WRITE_STORAGE = 4;
-
     private Note availableNote;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -71,24 +71,7 @@ public class NewNoteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_note);
-
-
-        imageBack = findViewById(R.id.backNavigation);
-        imageBack.setOnClickListener(view -> onBackPressed());
-
-        title = findViewById(R.id.title);
-        inputNote = findViewById(R.id.inputNote);
-        date = findViewById(R.id.dateTime);
-        addNote = findViewById(R.id.submitNote);
-        imageNote = findViewById(R.id.imageNote);
-        setTime();
         setStuff();
-        findViewById(R.id.removeImage).setOnClickListener(view -> {
-            imageNote.setImageBitmap(null);
-            imageNote.setVisibility(View.GONE);
-            findViewById(R.id.removeImage).setVisibility(View.GONE);
-            selectedImagePath = "";
-        });
         initializeCustomDrawer();
         handleOpenedNote();
         deleteNote();
@@ -97,16 +80,28 @@ public class NewNoteActivity extends AppCompatActivity {
 
     }
     private void setStuff() {
+        imageBack = findViewById(R.id.backNavigation);
+        imageBack.setOnClickListener(view -> onBackPressed());
+
+        title = findViewById(R.id.title);
+        inputNote = findViewById(R.id.inputNote);
+        date = findViewById(R.id.dateTime);
+        addNote = findViewById(R.id.submitNote);
+        imageNote = findViewById(R.id.imageNote);
+        findViewById(R.id.removeImage).setOnClickListener(view -> {
+            imageNote.setImageBitmap(null);
+            imageNote.setVisibility(View.GONE);
+            findViewById(R.id.removeImage).setVisibility(View.GONE);
+            selectedImagePath = "";
+        });
         addNote.setOnClickListener(view -> saveNote());
-    }
-    private void setTime() {
         date.setText(new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date()));
     }
     private void setViewOrUpdateNote() {
+
         title.setText(availableNote.getTitle());
         inputNote.setText(availableNote.getInputNote());
         date.setText(availableNote.getTime());
-
 
         if(availableNote.getImagePath() != null && !availableNote.getImagePath().trim().isEmpty()) {
             imageNote.setImageBitmap(BitmapFactory.decodeFile(availableNote.getImagePath()));
@@ -139,6 +134,7 @@ public class NewNoteActivity extends AppCompatActivity {
         if(availableNote != null) {
             note.setId(availableNote.getId());
         }
+
         @SuppressLint("StaticFieldLeak")
         class SaveNote extends AsyncTask<Void, Void, Void> {
 
@@ -163,7 +159,6 @@ public class NewNoteActivity extends AppCompatActivity {
 
         LinearLayout drawerLayout = findViewById(R.id.linearLayoutOfCustom);
 
-
         final ImageView blue = drawerLayout.findViewById(R.id.colorBlue);
         final ImageView red = drawerLayout.findViewById(R.id.colorRed);
         final ImageView brown = drawerLayout.findViewById(R.id.colorBrown);
@@ -171,6 +166,9 @@ public class NewNoteActivity extends AppCompatActivity {
         final ImageView yellow = drawerLayout.findViewById(R.id.colorYellow);
         final ImageView purple = drawerLayout.findViewById(R.id.colorPurple);
         final ImageView dark = drawerLayout.findViewById(R.id.colorDark);
+
+
+
 
         final TextView fontBangers = drawerLayout.findViewById(R.id.font_bangers);
         final TextView fontAmita = drawerLayout.findViewById(R.id.font_amita);
@@ -264,6 +262,8 @@ public class NewNoteActivity extends AppCompatActivity {
             fontKrona.setBackgroundResource(0);
             fontRozha.setBackgroundResource(0);
             inputNote.setTypeface(typeFace);
+
+
         });
         drawerLayout.findViewById(R.id.font_amita).setOnClickListener(view -> {
             fontAmita.setBackgroundResource(R.drawable.custom_color_selector);
@@ -326,9 +326,7 @@ public class NewNoteActivity extends AppCompatActivity {
                 selectImage();
             }
         });
-        drawerLayout.findViewById(R.id.captureImage).setOnClickListener(view ->{
-            checkStoragePermission();
-        });
+        drawerLayout.findViewById(R.id.captureImage).setOnClickListener(view -> checkStoragePermission());
     }
     private void selectImage() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -396,6 +394,7 @@ public class NewNoteActivity extends AppCompatActivity {
                 Uri photoURI = FileProvider.getUriForFile(this,
                         "com.example.semestralkavamz",
                         photoFile);
+
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_CODE_CAPTURE_IMAGE);
             }
@@ -440,44 +439,43 @@ public class NewNoteActivity extends AppCompatActivity {
             }
         } else {
 
-            Toast.makeText(this, "Permission Alreday grated", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Permission Already granted", Toast.LENGTH_SHORT).show();
             //capture image when permission is granted
             openCameraTocaptureImage();
 
         }
     }
     private void galleryAddPic() {
+
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         File f = new File(selectedImagePath);
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
         this.sendBroadcast(mediaScanIntent);
+        //setPic();
     }
-    private void setPic() {
-        // Get the dimensions of the View
-        int targetW = imageNote.getWidth();
-        int targetH = imageNote.getHeight();
 
-        // Get the dimensions of the bitmap
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
+    private void compressImage(Uri imageUri) {
+        try{
+            InputStream imageStream = getContentResolver().openInputStream(imageUri);
+            Bitmap imageBitmap = BitmapFactory.decodeStream(imageStream);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG,50,stream);
 
-        BitmapFactory.decodeFile(selectedImagePath, bmOptions);
+            try {
+                stream.close();
+                stream = null;
+            } catch (IOException e) {
 
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
+                e.printStackTrace();
+            }
 
-        // Determine how much to scale down the image
-        int scaleFactor = Math.max(1, Math.min(photoW/targetW, photoH/targetH));
-
-        // Decode the image file into a Bitmap sized to fill the View
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
-        bmOptions.inPurgeable = true;
-
-        Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath, bmOptions);
-        imageNote.setImageBitmap(bitmap);
+        }catch (IOException e) {
+                e.printStackTrace();
+        }
     }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -488,7 +486,9 @@ public class NewNoteActivity extends AppCompatActivity {
             Uri contentUri = Uri.fromFile(f);
 
             Toast.makeText(this, "uri " + contentUri, Toast.LENGTH_SHORT).show();
+            compressImage(contentUri);
             galleryAddPic();
+
             imageNote.setImageURI(contentUri);
             imageNote.setVisibility(View.VISIBLE);
 
@@ -532,7 +532,6 @@ public class NewNoteActivity extends AppCompatActivity {
         findViewById(R.id.removeNote).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("TAG","KLIKOL SI");
                 @SuppressLint("StaticFieldLeak")
                 class DeleteNoteTask extends AsyncTask<Void,Void,Void> {
 
