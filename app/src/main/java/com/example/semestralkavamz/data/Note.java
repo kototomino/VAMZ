@@ -5,7 +5,11 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import java.io.Serializable;
 
-
+/**
+ * @author TOMAS KOTRIK 2022
+ * Trieda Note je entita pre Room databazu
+ * sklada sa z idcka, nazvu poznamky, obsahu poznamky,datumu+casu, obrazku, a farby poznamky
+ * */
 @Entity(tableName = "notes")
 public class Note implements Serializable {
 

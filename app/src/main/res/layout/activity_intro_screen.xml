@@ -21,7 +21,8 @@
         android:textColor="@color/black"
         android:textSize="@dimen/_24sdp"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="16dp"></TextView>
+        tools:layout_editor_absoluteX="16dp">
+    </TextView>
 
     <LinearLayout
         android:id="@+id/layout_of_search"
@@ -51,7 +52,7 @@
             android:layout_marginStart="@dimen/_24sdp"
             android:fontFamily="@font/bangers"
             android:layout_marginEnd="@dimen/_50sdp"
-            android:hint="search"
+            android:hint="@string/search"
             android:imeOptions="actionDone"
             android:importantForAutofill="no"
             android:inputType="text"
@@ -72,8 +73,9 @@
             app:layout_constraintBottom_toTopOf="@id/action_bar"
             android:paddingEnd="@dimen/_12sdp"
             android:paddingBottom="@dimen/_12sdp"
+            android:clipToPadding="false" >
 
-            android:clipToPadding="false" ></androidx.recyclerview.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
 
 
         <LinearLayout
@@ -91,8 +93,9 @@
                 android:layout_height="@dimen/_20ssp"
                 android:contentDescription="@string/app_title"
                 android:src="@drawable/ic_baseline_sort_24"
-                app:tint="@color/white"
-                ></ImageView>
+                app:tint="@color/white">
+
+            </ImageView>
             <TextView
                 android:id="@+id/sortAZ"
                 android:layout_width="wrap_content"
@@ -102,8 +105,9 @@
                 android:textSize="@dimen/_13sdp"
                 android:background="@drawable/background_sort"
                 android:fontFamily="@font/bangers"
-                android:textColor="@color/white"
-                ></TextView>
+                android:textColor="@color/white">
+
+            </TextView>
             <TextView
                 android:id="@+id/sortZA"
                 android:layout_width="wrap_content"
@@ -113,8 +117,9 @@
                 android:textSize="@dimen/_13sdp"
                 android:fontFamily="@font/bangers"
                 android:background="@drawable/background_sort"
-                android:textColor="@color/white"
-                ></TextView>
+                android:textColor="@color/white">
+
+            </TextView>
             <TextView
                 android:id="@+id/sortTime"
                 android:layout_width="wrap_content"
@@ -124,14 +129,18 @@
                 android:textSize="@dimen/_13sdp"
                 android:background="@drawable/background_sort"
                 android:fontFamily="@font/bangers"
-                android:textColor="@color/white"
-                ></TextView>
+                android:textColor="@color/white">
+
+            </TextView>
             <ImageView
                 android:id="@+id/refresh"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_20ssp"
                 android:layout_marginStart="@dimen/_100sdp"
-                android:src="@drawable/ic_baseline_refresh_24"></ImageView>
+                android:contentDescription="@string/app_title"
+                android:src="@drawable/ic_baseline_refresh_24">
+
+            </ImageView>
         </LinearLayout>
 
     <ImageView
@@ -142,13 +151,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/ic_baseline_add_24"
         android:background="@drawable/roundbutton"
+        android:contentDescription="@string/app_title"
         android:layout_marginBottom="@dimen/_20sdp"
-        android:layout_marginRight="@dimen/_20sdp"
-        ></ImageView>
-
-
-
-
+        android:layout_marginEnd="@dimen/_20sdp">
+    </ImageView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

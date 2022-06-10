@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">SemestralkaVamz</string>
     <string name="app_title">Keep In Mind</string>
+    <string name="search">search</string>
+    <string name="insert_title">Insert Title</string>
+    <string name="pick_font">PICK FONT</string>
+    <string name="customize">CUSTOMIZE</string>
+    <string name="pick_color">PICK  COLOR</string>
+    <string name="add_image">ADD IMAGE</string>
+    <string name="capture_image">CAPTURE IMAGE</string>
+    <string name="photo_included">Photo included</string>
 </resources>

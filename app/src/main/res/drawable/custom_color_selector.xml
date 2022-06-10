@@ -3,9 +3,13 @@
     android:shape="rectangle">
 
     <size android:width="@dimen/_30sdp"
-        android:height="@dimen/_15sdp"></size>
+        android:height="@dimen/_15sdp">
+
+    </size>
     <stroke android:color="@color/white"
-        android:width="0.5dp"></stroke>
+        android:width="0.5dp">
+
+    </stroke>
 
 
 </shape>

@@ -4,7 +4,9 @@
 
 
     <stroke android:width="@dimen/_1sdp"
-        android:color="@color/white"></stroke>
+        android:color="@color/white">
+
+    </stroke>
 <!--    <corners-->
 <!--        android:topRightRadius = "15dp"-->
 <!--        android:topLeftRadius = "15dp"-->

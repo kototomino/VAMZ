@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -27,24 +27,30 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:contentDescription="@string/app_title"
                     android:id="@+id/backNavigation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_12sdp"
                     android:layout_marginTop="@dimen/_12sdp"
                     android:background="@color/dark"
-                    android:src="@drawable/ic_baseline_close_24"></ImageView>
+                    android:src="@drawable/ic_baseline_close_24">
+
+                </ImageView>
 
                 <ImageView
                     android:id="@+id/removeNote"
                     android:layout_width="@dimen/_20ssp"
+                    android:contentDescription="@string/app_title"
                     android:layout_height="@dimen/_20ssp"
                     android:layout_alignParentTop="true"
                     android:layout_centerInParent="true"
                     android:layout_marginEnd="@dimen/_15sdp"
                     android:background="@color/dark"
                     android:src="@drawable/ic_baseline_delete_forever_24"
-                    android:visibility="visible"></ImageView>
+                    android:visibility="visible">
+
+                </ImageView>
 
                 <ImageView
                     android:id="@+id/submitNote"
@@ -52,11 +58,14 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
+                    android:contentDescription="@string/app_title"
                     android:layout_centerInParent="true"
                     android:layout_marginTop="@dimen/_12sdp"
                     android:layout_marginEnd="@dimen/_12sdp"
                     android:layout_marginBottom="@dimen/_12sdp"
-                    android:src="@drawable/ic_baseline_add_24"></ImageView>
+                    android:src="@drawable/ic_baseline_add_24">
+
+                </ImageView>
             </RelativeLayout>
 
 
@@ -68,13 +77,14 @@
                 android:layout_marginTop="@dimen/_12sdp"
                 android:layout_marginEnd="@dimen/_12sdp"
                 android:fontFamily="@font/bangers"
-                android:hint="Insert Title"
+                android:hint="@string/insert_title"
                 android:importantForAutofill="no"
-
                 android:inputType="text"
                 android:textColor="@color/white"
                 android:textColorHint="@color/gray"
-                android:textSize="@dimen/_30sdp"></EditText>
+                android:textSize="@dimen/_30sdp">
+
+            </EditText>
 
             <TextView
                 android:id="@+id/dateTime"
@@ -84,23 +94,24 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/ubuntu_medium"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_8sdp"></TextView>
+                android:textSize="@dimen/_8sdp">
+
+            </TextView>
 
             <ImageView
                 android:id="@+id/removeImage"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:background="@color/dark"
                 android:contentDescription="@string/app_title"
                 android:src="@drawable/ic_baseline_delete_forever_24"
-                android:visibility="gone"
+                android:visibility="gone">
 
-
-                ></ImageView>
+            </ImageView>
 
             <ImageView
                 android:id="@+id/imageNote"
@@ -112,7 +123,6 @@
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/app_title"
                 android:visibility="gone">
-
             </ImageView>
 
             <EditText
@@ -125,18 +135,22 @@
                 android:fontFamily="@font/ubuntu_medium"
                 android:gravity="top"
                 android:hint="..."
+                android:inputType="text"
                 android:importantForAutofill="no"
                 android:includeFontPadding="false"
                 android:minHeight="@dimen/_350sdp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/gray"
-                android:textSize="@dimen/_20sdp"></EditText>
+                android:textSize="@dimen/_20sdp">
+
+            </EditText>
 
             <include
                 layout="@layout/custom_drawer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_40sdp"></include>
+                android:layout_marginTop="@dimen/_40sdp">
+            </include>
         </LinearLayout>
 
     </ScrollView>

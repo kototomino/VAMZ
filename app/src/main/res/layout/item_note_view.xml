@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:id="@+id/item_note_view_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,16 +13,17 @@
         android:id="@+id/imageNoteText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Photo included"
+        android:text="@string/photo_included"
         android:adjustViewBounds="true"
         android:visibility="visible"
-        android:gravity="right"
+        android:gravity="end"
         android:textSize="@dimen/_8sdp"
         android:layout_marginEnd="@dimen/_15ssp"
         android:layout_marginTop="@dimen/_5ssp"
         android:textColor="@color/white"
-        android:fontFamily="@font/ubuntu_medium"
-        ></TextView>
+        android:fontFamily="@font/ubuntu_medium">
+
+    </TextView>
 
     <TextView
         android:id="@+id/titleText"
@@ -45,10 +46,11 @@
         android:layout_marginStart="@dimen/_8sdp"
         android:layout_marginBottom="@dimen/_8sdp"
         android:layout_marginEnd="@dimen/_15sdp"
-        android:gravity="right"
+        android:gravity="end"
         android:fontFamily="@font/ubuntu_medium"
         android:textSize="@dimen/_8sdp"
-        android:textColor="@color/white"
-        ></TextView>
+        android:textColor="@color/white">
+
+    </TextView>
 
 </LinearLayout>

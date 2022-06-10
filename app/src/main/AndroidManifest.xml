@@ -21,7 +21,9 @@
             android:name=".activities.NewNoteActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:requestLegacyExternalStorage="true" ></activity>
+            android:requestLegacyExternalStorage="true" >
+
+        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -30,7 +32,9 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths">
+
+            </meta-data>
         </provider>
 
 

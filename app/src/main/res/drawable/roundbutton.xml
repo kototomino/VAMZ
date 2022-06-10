@@ -4,12 +4,16 @@
 
     <solid android:color = "@color/orange" />
     <stroke android:width="@dimen/_3sdp"
-        android:color="@color/white"></stroke>
+        android:color="@color/white">
+
+    </stroke>
     <corners
         android:topRightRadius = "45dp"
         android:topLeftRadius = "45dp"
         android:bottomRightRadius = "45dp"
         android:bottomLeftRadius = "45dp"
-        ></corners>
+        >
+
+    </corners>
 
 </shape>

@@ -7,7 +7,10 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.example.semestralkavamz.data.Note;
-
+/**
+ * @author TOMAS KOTRIK 2022
+ * Room Databaza robena z cviceni
+ * */
 @Database(entities = Note.class,version = 1,exportSchema = false)
 public abstract class NotesDatabase extends RoomDatabase {
 
@@ -15,10 +18,11 @@ public abstract class NotesDatabase extends RoomDatabase {
 
     public static synchronized NotesDatabase getDatabase(Context context) {
         if (notesDatabase == null) {
+            //vytvorenie databazy
             notesDatabase= Room.databaseBuilder(context,NotesDatabase.class,"notes_database").build();
         }
         return notesDatabase;
     }
-
+    //pripustenie DAO
     public abstract NoteDao noteDao();
 }

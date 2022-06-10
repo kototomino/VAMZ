@@ -1,15 +1,21 @@
 package com.example.semestralkavamz.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import com.example.semestralkavamz.R;
-
 import java.util.ArrayList;
 import java.util.Random;
-
+/**
+ * @author TOMAS KOTRIK 2022
+* MainActivity je hlavna start aktivita
+* kde sa zobrazi pouzivatelovi randomny citat z drawable obrazkov
+* nasledne moze pokracovat dalej jednoduchym kliknutim na dany obrazok
+*
+*
+*
+* */
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -19,12 +25,13 @@ public class MainActivity extends AppCompatActivity {
 
         initialize();
 
-
-
-
-
-
     }
+
+    /**
+    * Pridanie obrazkov do arraylistu, vygenerovanie random cisla z indexov arraylistu
+    * a zobrazenie obrazka na danom indexe
+    *
+    * */
     private void initialize() {
         ArrayList<Integer> images = new ArrayList<>();
         ImageView image = findViewById(R.id.randomImage);

@@ -12,48 +12,50 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="CUSTOMIZE"
+        android:text="@string/customize"
         android:textColor="@color/white"
         android:fontFamily="@font/bangers"
         android:gravity="center"
-        android:textSize="@dimen/_22sdp"
+        android:textSize="@dimen/_22sdp">
 
-        ></TextView>
+    </TextView>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="PICK  COLOR"
+        android:text="@string/pick_color"
         android:textSize="@dimen/_18sdp"
         android:textColor="@color/white"
         android:layout_marginTop="@dimen/_7sdp"
         android:gravity="center"
         android:fontFamily="@font/bangers">
-
     </TextView>
+
     <LinearLayout
         android:layout_marginStart="@dimen/_12sdp"
         android:layout_marginEnd="@dimen/_12sdp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:baselineAligned="false"
         android:layout_gravity="center_vertical">
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            >
+            android:layout_weight="1">
 
             <View
                 android:id="@+id/viewColorDark"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
-                android:background="@drawable/custom_color_dark"
-                ></View>
+                android:background="@drawable/custom_color_dark">
+
+            </View>
             <ImageView
                 android:id="@+id/colorDark"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
                 android:padding="@dimen/_10sdp"
+                android:contentDescription="@string/app_title"
                 android:src="@drawable/ic_baseline_close_24">
 
             </ImageView>
@@ -62,21 +64,21 @@
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            >
+            android:layout_weight="1">
 
             <View
                 android:id="@+id/viewColorBlue"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
-                android:background="@drawable/custom_color_blue"
-                ></View>
+                android:background="@drawable/custom_color_blue">
+
+            </View>
             <ImageView
                 android:id="@+id/colorBlue"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
-                android:padding="@dimen/_10sdp"
-                >
+                android:contentDescription="@string/app_title"
+                android:padding="@dimen/_10sdp">
 
             </ImageView>
 
@@ -84,109 +86,106 @@
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            >
+            android:layout_weight="1">
 
             <View
                 android:id="@+id/viewColorRed"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
-                android:background="@drawable/custom_color_red"
-                ></View>
+                android:background="@drawable/custom_color_red">
+
+            </View>
             <ImageView
                 android:id="@+id/colorRed"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
-                android:padding="@dimen/_10sdp"
-                >
-
+                android:contentDescription="@string/app_title"
+                android:padding="@dimen/_10sdp">
             </ImageView>
 
         </FrameLayout>
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            >
+            android:layout_weight="1">
 
             <View
                 android:id="@+id/viewColorBrown"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
-                android:background="@drawable/custom_color_brown"
-                ></View>
+
+                android:background="@drawable/custom_color_brown">
+
+            </View>
             <ImageView
                 android:id="@+id/colorBrown"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
-                android:padding="@dimen/_10sdp"
-                >
-
+                android:contentDescription="@string/app_title"
+                android:padding="@dimen/_10sdp">
             </ImageView>
 
         </FrameLayout>
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            >
+            android:layout_weight="1">
 
             <View
                 android:id="@+id/viewColorOrange"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
-                android:background="@drawable/custom_color_orange"
-                ></View>
+                android:background="@drawable/custom_color_orange">
+
+            </View>
             <ImageView
                 android:id="@+id/colorOrange"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
-                android:padding="@dimen/_10sdp"
-               >
-
+                android:contentDescription="@string/app_title"
+                android:padding="@dimen/_10sdp">
             </ImageView>
 
         </FrameLayout>
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            >
+            android:layout_weight="1">
 
             <View
                 android:id="@+id/viewColorYellow"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
-                android:background="@drawable/custom_color_yellow"
-                ></View>
+                android:background="@drawable/custom_color_yellow">
+
+            </View>
             <ImageView
                 android:id="@+id/colorYellow"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
-                android:padding="@dimen/_10sdp"
-                >
-
+                android:contentDescription="@string/app_title"
+                android:padding="@dimen/_10sdp">
             </ImageView>
 
         </FrameLayout>
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            >
+            android:layout_weight="1">
 
             <View
                 android:id="@+id/viewColorPurple"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
-                android:background="@drawable/custom_color_purple"
-                ></View>
+                android:background="@drawable/custom_color_purple">
+
+            </View>
             <ImageView
                 android:id="@+id/colorPurple"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
-                android:padding="@dimen/_10sdp"
-               >
+                android:contentDescription="@string/app_title"
+                android:padding="@dimen/_10sdp">
 
             </ImageView>
 
@@ -199,8 +198,7 @@
         android:rowCount="3"
         android:columnCount="3"
         android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/_12sdp"
-        >
+        android:layout_marginBottom="@dimen/_12sdp">
 
         <TextView
             android:id="@+id/font_bangers"
@@ -211,14 +209,16 @@
             android:layout_marginEnd="@dimen/_5sdp"
             android:fontFamily="@font/bangers"
             android:gravity="center"
-            android:text="PICK FONT"
+            android:text="@string/pick_font"
             android:textColor="@color/white"
-            android:textSize="@dimen/_12sdp"></TextView>
+            android:textSize="@dimen/_12sdp">
+
+        </TextView>
     <TextView
         android:id="@+id/font_ubuntu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="PICK FONT"
+        android:text="@string/pick_font"
         android:textSize="@dimen/_12sdp"
         android:textColor="@color/white"
         android:layout_marginTop="@dimen/_12sdp"
@@ -231,7 +231,7 @@
         android:id="@+id/font_gotu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="PICK FONT"
+        android:text="@string/pick_font"
         android:textSize="@dimen/_12sdp"
         android:textColor="@color/white"
         android:layout_marginTop="@dimen/_12sdp"
@@ -250,15 +250,17 @@
         android:layout_marginEnd="@dimen/_5sdp"
         android:fontFamily="@font/krona_one"
         android:gravity="center"
-        android:text="PICK FONT"
+        android:text="@string/pick_font"
         android:textColor="@color/white"
-        android:textSize="@dimen/_12sdp"></TextView>
+        android:textSize="@dimen/_12sdp">
+
+    </TextView>
 
     <TextView
         android:id="@+id/font_amita"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="PICK FONT"
+        android:text="@string/pick_font"
         android:textSize="@dimen/_15sdp"
         android:textColor="@color/white"
         android:layout_marginTop="@dimen/_12sdp"
@@ -277,9 +279,11 @@
             android:layout_marginEnd="@dimen/_5sdp"
             android:fontFamily="@font/rozha_one"
             android:gravity="center"
-            android:text="PICK FONT"
+            android:text="@string/pick_font"
             android:textColor="@color/white"
-            android:textSize="@dimen/_15sdp"></TextView>
+            android:textSize="@dimen/_15sdp">
+
+        </TextView>
 
     </GridLayout>
 
@@ -293,37 +297,42 @@
 
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
+            android:contentDescription="@string/app_title"
             android:src="@drawable/ic_baseline_image_24"
             android:layout_marginStart="@dimen/_12sdp"
-
-            ></ImageView>
+            >
+        </ImageView>
         <TextView
             android:id="@+id/addImage"
             android:layout_width="@dimen/_80sdp"
             android:layout_height="wrap_content"
-            android:text="ADD IMAGE"
+            android:text="@string/add_image"
             android:gravity="center"
             android:textColor="@color/white"
             android:layout_marginStart="@dimen/_12sdp"
-            android:fontFamily="@font/bangers"
-            ></TextView>
+            android:fontFamily="@font/bangers">
+
+        </TextView>
 
         <ImageView
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
+            android:contentDescription="@string/app_title"
             android:src="@drawable/ic_baseline_add_a_photo_24"
-            android:layout_marginStart="@dimen/_20sdp"
-            ></ImageView>
+            android:layout_marginStart="@dimen/_20sdp">
+
+        </ImageView>
         <TextView
             android:id="@+id/captureImage"
             android:layout_width="@dimen/_80sdp"
             android:layout_height="wrap_content"
-            android:text="CAPTURE IMAGE"
+            android:text="@string/capture_image"
             android:gravity="center"
             android:textColor="@color/white"
             android:layout_marginStart="@dimen/_12sdp"
-            android:fontFamily="@font/bangers"
-            ></TextView>
+            android:fontFamily="@font/bangers">
+
+        </TextView>
     </LinearLayout>
 
 </LinearLayout>

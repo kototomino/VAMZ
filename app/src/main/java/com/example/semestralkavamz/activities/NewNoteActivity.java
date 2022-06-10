@@ -46,10 +46,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
-
+/**
+ * @author TOMAS KOTRIK 2022
+ * NewNoteActivity je aktivita kde sa vytvara nova poznamka
+ * zlozena je z Titulku kde ide nadpis nasledne z obsahu poznamky a datumu ...
+ * datum sa nastavuje automaticky podla momentalneho datumu.
+ * Ked si uzivatel scrollne nizsie tak si moze svoju poznamku customizovat ci uz fontom alebo
+ * pridania obrazka z galerie alebo aj priamo z kamery ak je to priamo z kamery tak sa nasledne uklada obrazok
+ * do subora com.example.semestralkavamz ktory sa vytvori.
+ * Taktiez je mozne si nastavit farbu poznamky ktora bude potom v IntroScreenActivite.
+ *
+ * */
 public class NewNoteActivity extends AppCompatActivity {
 
     private ImageView imageBack;
@@ -79,6 +88,10 @@ public class NewNoteActivity extends AppCompatActivity {
 
 
     }
+    /**
+     * Zakladne inicializovanie vnutra poznamky
+     *
+     * */
     private void setStuff() {
         imageBack = findViewById(R.id.backNavigation);
         imageBack.setOnClickListener(view -> onBackPressed());
@@ -97,6 +110,11 @@ public class NewNoteActivity extends AppCompatActivity {
         addNote.setOnClickListener(view -> saveNote());
         date.setText(new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date()));
     }
+
+    /**
+     * setViewOrUpdateNote je metoda na nastavenie danych fieldov ktore boli zapisane do poznamky a nasledne zobrazenie
+     * ak bol pridany obrazok tak sa umozni tento obrazok vymazat
+     * */
     private void setViewOrUpdateNote() {
 
         title.setText(availableNote.getTitle());
@@ -113,12 +131,22 @@ public class NewNoteActivity extends AppCompatActivity {
             imageNote.setVisibility(View.GONE);
         }
     }
+    /**
+     * Ak sa dostalo z vnutorneho intentu aj boolean parameter true tak to znamena ze sa poznamka neotvori lebo bola vymazana
+     * inak sa otvori a prebehne metoda setViewOrUpdateNote
+     * */
     private void handleOpenedNote() {
         if (getIntent().getBooleanExtra("isViewOrUpdate",false)) {
             availableNote = (Note) getIntent().getSerializableExtra("note");
             setViewOrUpdateNote();
         }
     }
+
+    /**
+     * saveNote metoda sluzi na ulozenie poznamky a poslanie do Room Databazy
+     * nastavia sa potrebne parametre ktora poznamka dostala od uzivatela
+     * ak uzivatel nezada Titulok poznamky tak mu aplikacia neumozni ist dalej
+     * */
     private void saveNote() {
         if(title.getText().toString().trim().isEmpty()) {
             Toast.makeText(this, "Title is empty ... please insert title before saving note!",Toast.LENGTH_LONG).show();
@@ -155,6 +183,12 @@ public class NewNoteActivity extends AppCompatActivity {
         new SaveNote().execute();
     }
     @RequiresApi(api = Build.VERSION_CODES.M)
+
+    /**
+     * initializeCustomDrawer je metoda kde sa nastavia vsetky potrebne parametre pre customizovanie poznamky
+     * cize farba font a pridany obrazok.
+     * Ked si uzivatel voli farby alebo fonty tak sa zobrazuje aj ukazatel aku farbu alebo font si prave vybral
+     * */
     private void initializeCustomDrawer() {
 
         LinearLayout drawerLayout = findViewById(R.id.linearLayoutOfCustom);
@@ -315,7 +349,10 @@ public class NewNoteActivity extends AppCompatActivity {
             fontKrona.setBackgroundResource(0);
             inputNote.setTypeface(typeFace);
         });
-
+/**
+ * Uzivatelovi je pridane povolenie o vstupe do galerie a vybratie z nej
+ *
+ * */
         drawerLayout.findViewById(R.id.addImage).setOnClickListener(view -> {
             if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)!=
                     PackageManager.PERMISSION_GRANTED) {
@@ -328,14 +365,21 @@ public class NewNoteActivity extends AppCompatActivity {
         });
         drawerLayout.findViewById(R.id.captureImage).setOnClickListener(view -> checkStoragePermission());
     }
+    /**
+     * Vybratie z galerie obrazkov
+     * */
     private void selectImage() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         if (intent.resolveActivity(getPackageManager())!= null) {
             startActivityForResult(intent,REQUEST_CODE_SELECT_IMAGE);
         }
 
-
     }
+
+    /**
+     * Vytvorenie obrazku z pouzitej kamery
+     * kod zo stranky developer.android.com
+     * */
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -353,7 +397,9 @@ public class NewNoteActivity extends AppCompatActivity {
     }
 
 
-
+/**
+ * Uskutocnenie povolenia uzivatela na fotenie alebo vyberanie z galerie
+ * */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -371,14 +417,18 @@ public class NewNoteActivity extends AppCompatActivity {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //Permission is granted
-                openCameraTocaptureImage();
+                openCameraToCaptureImage();
             } else {
-                Toast.makeText(this, "permission denied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    private void openCameraTocaptureImage() {
+    /**
+     * openCameraToCaptureImage sluzi na zaznamenanie fotky z kamery pouzivatela
+     * kod taktiez pomocka z developer.android.com
+     * */
+    private void openCameraToCaptureImage() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -400,7 +450,10 @@ public class NewNoteActivity extends AppCompatActivity {
             }
         }
     }
-
+/**
+ * Kontrolovanie povolenia pre zapisovanie obrazka do suboru
+ *
+ * */
     private void checkStoragePermission() {
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(NewNoteActivity.this,
@@ -427,10 +480,8 @@ public class NewNoteActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.cancel();
-                        //cancel the dialog interface
                     }
                 }).show();
-                //forget to call show()
             } else {
                 ActivityCompat.requestPermissions(NewNoteActivity.this,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
@@ -440,21 +491,25 @@ public class NewNoteActivity extends AppCompatActivity {
         } else {
 
             Toast.makeText(this, "Permission Already granted", Toast.LENGTH_SHORT).show();
-            //capture image when permission is granted
-            openCameraTocaptureImage();
+            openCameraToCaptureImage();
 
         }
     }
+    /**
+     * Nasledne pridanie obrazka do suboru
+     * */
     private void galleryAddPic() {
 
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(selectedImagePath);
-        Uri contentUri = Uri.fromFile(f);
+        File imageFile = new File(selectedImagePath);
+        Uri contentUri = Uri.fromFile(imageFile);
         mediaScanIntent.setData(contentUri);
         this.sendBroadcast(mediaScanIntent);
-        //setPic();
-    }
 
+    }
+/**
+ * Zmensenie obrazka aby nezaberal tolko miesta riesenie tvorene v zmysle zmensenia bitmapy
+ * */
     private void compressImage(Uri imageUri) {
         try{
             InputStream imageStream = getContentResolver().openInputStream(imageUri);
@@ -475,20 +530,23 @@ public class NewNoteActivity extends AppCompatActivity {
         }
     }
 
-
+/**
+ * onActivityResult ak je request kod na snimanie kamery tak sa bude snimat kamera
+ * ak je request kod na vybratie obrazka z galerie tak sa vybera z galerie
+ * */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_CAPTURE_IMAGE && resultCode == RESULT_OK) {
 
 
-            File f = new File(selectedImagePath);
-            Uri contentUri = Uri.fromFile(f);
+            File fileImage = new File(selectedImagePath);
+            Uri contentUri = Uri.fromFile(fileImage);
 
-            Toast.makeText(this, "uri " + contentUri, Toast.LENGTH_SHORT).show();
+
             compressImage(contentUri);
             galleryAddPic();
-
+            //nastavenie obrazka aby bol zobrazeny uzivatelovi
             imageNote.setImageURI(contentUri);
             imageNote.setVisibility(View.VISIBLE);
 
@@ -513,7 +571,9 @@ public class NewNoteActivity extends AppCompatActivity {
             }
         }
     }
-
+/**
+ * getPathFromUri vrati cestu k obrazku aby som ho vedel nasledne zobrazit
+ * */
     private String getPathFromUri(Uri content) {
         String filePath;
         Cursor cursor = getContentResolver().query(content,null,null,null,null);
@@ -528,6 +588,11 @@ public class NewNoteActivity extends AppCompatActivity {
         }
         return filePath;
     }
+
+    /**
+     * deleteNote sluzi na vymazanie poznamky z databazy a celkovo z listu poznamok
+     * do intentu delete sa vlozi boolean parameter true aby sa vedelo ze sa ide mazat poznamka
+     * */
     public void deleteNote() {
         findViewById(R.id.removeNote).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -544,9 +609,9 @@ public class NewNoteActivity extends AppCompatActivity {
                     @Override
                     protected void onPostExecute(Void avoid) {
                         super.onPostExecute(avoid);
-                        Intent intent = new Intent();
-                        intent.putExtra("isNoteDeleted",true);
-                        setResult(RESULT_OK,intent);
+                        Intent delete = new Intent();
+                        delete.putExtra("isNoteDeleted",true);
+                        setResult(RESULT_OK,delete);
                         finish();
                     }
                 }

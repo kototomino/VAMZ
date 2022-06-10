@@ -4,7 +4,11 @@ import com.example.semestralkavamz.data.Note;
 
 import java.util.Comparator;
 
-
+/**
+ * @author TOMAS KOTRIK 2022
+ * Vlastna trieda na komparovanie poznamok pomocou Comparable porovnavam jednotlive fieldy poznamok
+ * a vraciam ich v poradi akom potrebujem cize nazov zostupne/vzostupne a datum zostupne
+ * */
 public abstract class MyNotesComparators implements Comparable<Note> {
 
 
