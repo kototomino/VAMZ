@@ -8,17 +8,19 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-
-
 import java.util.List;
 
-@SuppressWarnings("AndroidUnresolvedRoomSqlReference")
+
+
 /**
  * NoteDao je DAO od room databazy kde je jednoduchy query select pre list poznamok kde sa vybere vsetko
  * a insert pre vlozenie poznamky , delete pre odstranenie poznamky
  * */
+
+@SuppressWarnings("AndroidUnresolvedRoomSqlReference")
 @Dao
 public interface NoteDao {
+
 
     @Query("SELECT * FROM notes ORDER BY id DESC")
     List<Note> notesList();

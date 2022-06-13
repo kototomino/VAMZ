@@ -46,17 +46,18 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     /**
      * Vytvorenie View holdera ktory vytvori vzhlad danej poznamky
      * */
+
     @NonNull
     @Override
-    public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new NoteViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note_view,parent,false));
+    public NoteViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new NoteViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note_view, parent, false));
     }
 
     /**
      * Bindovanie view holdera v zmysle nastavenie onclick Listenera kde prekriva metodu onNoteClicked
      * */
     @Override
-    public void onBindViewHolder(@NonNull NoteViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder( NoteViewHolder holder, int position) {
         holder.initializeNote(notes.get(position));
         holder.layoutNoteItem.setOnClickListener(view -> notesListener.onNoteClicked(notes.get(position),position));
     }
@@ -80,12 +81,12 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     /**
      * Vnutorna trieda ktora nastavuje cely obsah danej poznamky na zovnajsku cize v IntroScreenActivity
      * */
-    public class NoteViewHolder extends RecyclerView.ViewHolder {
+    public static class NoteViewHolder extends RecyclerView.ViewHolder {
 
         TextView titleText, timeText,imageNoteText;
         LinearLayout layoutNoteItem;
 
-        public NoteViewHolder(@NonNull View itemView) {
+        public NoteViewHolder( View itemView) {
             super(itemView);
             //nastavenie fieldov
             titleText = itemView.findViewById(R.id.titleText);
@@ -148,6 +149,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
                 }
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @SuppressLint("NotifyDataSetChanged")
                     @Override
                     public void run() {
                         //kym uzivatel hlada tak sa updatuje view

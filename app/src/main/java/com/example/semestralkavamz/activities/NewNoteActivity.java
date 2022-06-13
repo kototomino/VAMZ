@@ -3,10 +3,11 @@ package com.example.semestralkavamz.activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
@@ -14,6 +15,8 @@ import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,7 +26,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
+
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -75,7 +78,7 @@ public class NewNoteActivity extends AppCompatActivity {
     private final static int REQUEST_CODE_WRITE_STORAGE = 4;
     private Note availableNote;
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +93,7 @@ public class NewNoteActivity extends AppCompatActivity {
     }
     /**
      * Zakladne inicializovanie vnutra poznamky
-     *
+     * findViewById ...
      * */
     private void setStuff() {
         imageBack = findViewById(R.id.backNavigation);
@@ -158,10 +161,12 @@ public class NewNoteActivity extends AppCompatActivity {
         note.setTime(date.getText().toString());
         note.setColor(color);
         note.setImagePath(selectedImagePath);
+        String message = "Note: " + note.getTitle().toUpperCase() + " created !";
 
         if(availableNote != null) {
             note.setId(availableNote.getId());
         }
+
 
         @SuppressLint("StaticFieldLeak")
         class SaveNote extends AsyncTask<Void, Void, Void> {
@@ -181,8 +186,10 @@ public class NewNoteActivity extends AppCompatActivity {
             }
         }
         new SaveNote().execute();
+        Toast.makeText(getApplicationContext(), "Note: " + note.getTitle().toUpperCase() + " created !", Toast.LENGTH_LONG).show();
+        makeNotificationADDNote(note,message);
     }
-    @RequiresApi(api = Build.VERSION_CODES.M)
+
 
     /**
      * initializeCustomDrawer je metoda kde sa nastavia vsetky potrebne parametre pre customizovanie poznamky
@@ -349,7 +356,7 @@ public class NewNoteActivity extends AppCompatActivity {
             fontKrona.setBackgroundResource(0);
             inputNote.setTypeface(typeFace);
         });
-/**
+/*
  * Uzivatelovi je pridane povolenie o vstupe do galerie a vybratie z nej
  *
  * */
@@ -396,6 +403,30 @@ public class NewNoteActivity extends AppCompatActivity {
         return image;
     }
 
+    /**
+     * Vytvorenie notifikacie po pridani poznamky
+     * do parametru poznamka a sprava ktora sa ma zobrazit v notifikacii
+     * */
+    private void makeNotificationADDNote(Note note,String message) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            //vytvorenie jedinecneho channelu pre notifikaciu
+            NotificationChannel notificationChannel = new NotificationChannel("ADDNOTE","ADDNOTE", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+        NotificationCompat.Builder notifBuilder = new NotificationCompat.Builder(getApplicationContext(),"ADDNOTE");
+        //nadpis notifikacie
+        notifBuilder.setContentTitle("KeepInMind");
+        //sprava vo vnutri notifikacie
+        notifBuilder.setContentText(message);
+        //ikonka
+        notifBuilder.setSmallIcon(R.mipmap.ic_launcher_round);
+        //auto zrusenie
+        notifBuilder.setAutoCancel(true);
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getApplicationContext());
+        //zobrazenie notifikacie
+        managerCompat.notify(1, notifBuilder.build());
+    }
 
 /**
  * Uskutocnenie povolenia uzivatela na fotenie alebo vyberanie z galerie
@@ -490,7 +521,7 @@ public class NewNoteActivity extends AppCompatActivity {
             }
         } else {
 
-            Toast.makeText(this, "Permission Already granted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show();
             openCameraToCaptureImage();
 
         }
@@ -519,7 +550,7 @@ public class NewNoteActivity extends AppCompatActivity {
 
             try {
                 stream.close();
-                stream = null;
+
             } catch (IOException e) {
 
                 e.printStackTrace();
@@ -594,9 +625,12 @@ public class NewNoteActivity extends AppCompatActivity {
      * do intentu delete sa vlozi boolean parameter true aby sa vedelo ze sa ide mazat poznamka
      * */
     public void deleteNote() {
+
         findViewById(R.id.removeNote).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 @SuppressLint("StaticFieldLeak")
                 class DeleteNoteTask extends AsyncTask<Void,Void,Void> {
 
@@ -616,6 +650,8 @@ public class NewNoteActivity extends AppCompatActivity {
                     }
                 }
                 new DeleteNoteTask().execute();
+                Toast.makeText(getApplicationContext(), "Note: " + availableNote.getTitle().toUpperCase() + " deleted !", Toast.LENGTH_LONG).show();
+
             }
         });
     }

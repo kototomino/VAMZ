@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/font"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light"
@@ -21,9 +21,22 @@
         android:textColor="@color/black"
         android:textSize="@dimen/_24sdp"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="16dp">
+        tools:layout_editor_absoluteX="17dp">
     </TextView>
+    <ImageView
+        android:id="@+id/change"
+        android:layout_width="64dp"
+        app:tint="@color/dark"
+        android:layout_height="@dimen/_20ssp"
+        android:contentDescription="@string/app_title"
+        android:src="@drawable/ic_baseline_grid_view_24"
+        tools:layout_editor_absoluteX="285dp"
+        tools:layout_editor_absoluteY="36dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/layout_of_search">
 
+    </ImageView>
     <LinearLayout
         android:id="@+id/layout_of_search"
         android:layout_width="match_parent"
@@ -132,6 +145,7 @@
                 android:textColor="@color/white">
 
             </TextView>
+
             <ImageView
                 android:id="@+id/refresh"
                 android:layout_width="match_parent"
@@ -141,6 +155,7 @@
                 android:src="@drawable/ic_baseline_refresh_24">
 
             </ImageView>
+
         </LinearLayout>
 
     <ImageView
@@ -155,6 +170,8 @@
         android:layout_marginBottom="@dimen/_20sdp"
         android:layout_marginEnd="@dimen/_20sdp">
     </ImageView>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

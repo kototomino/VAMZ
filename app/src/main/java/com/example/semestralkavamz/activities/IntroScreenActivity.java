@@ -16,6 +16,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 
 import com.example.semestralkavamz.Comparators.MyNotesComparators;
@@ -62,6 +63,7 @@ public class IntroScreenActivity extends AppCompatActivity implements NotesListe
     private RecyclerView notesRecycler;
     private List<Note> notesList;
     private NoteAdapter notesAdapter;
+    private int clicked;
 
     //pozicia kliknutej poznamky
     private int noteClickedPosition = -1;
@@ -88,6 +90,7 @@ public class IntroScreenActivity extends AppCompatActivity implements NotesListe
         //umoznenie vyhladavania poznamok
         initializeSearcher();
 
+
     }
     /**
     * Metoda initializeRecyclerView sluzi na uvodne nastavenie recycler view
@@ -96,11 +99,30 @@ public class IntroScreenActivity extends AppCompatActivity implements NotesListe
     * */
     private void initializeRecyclerView() {
         notesRecycler = findViewById(R.id.recyclerView);
-
         notesRecycler.setLayoutManager(new GridLayoutManager(this,GridLayoutManager.VERTICAL));
         notesList = new ArrayList<>();
         notesAdapter = new NoteAdapter(notesList,this);
         notesRecycler.setAdapter(notesAdapter);
+
+        //Vytvorenie menenia layoutu
+        clicked = 0;
+        ImageView change = findViewById(R.id.change);
+        change.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clicked++;
+                if(clicked == 1) {
+                    notesRecycler.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+                    change.setImageResource(R.drawable.ic_baseline_view_agenda_24);
+                } else {
+                    notesRecycler.setLayoutManager(new GridLayoutManager(IntroScreenActivity.this,GridLayoutManager.VERTICAL));
+                    change.setImageResource(R.drawable.ic_baseline_grid_view_24);
+                    clicked = 0;
+                }
+
+
+            }
+        });
 
     }
 
