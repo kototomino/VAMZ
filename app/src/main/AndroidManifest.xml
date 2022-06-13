@@ -27,7 +27,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="semestralkavam"
+            android:authorities="com.example.semestralkavamz"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
